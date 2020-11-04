@@ -1,4 +1,4 @@
-# AI-DIP
+# NOTEs
 
 GZQ学习笔记
 
