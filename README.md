@@ -1,5 +1,5 @@
-# AI-DIP
-DL practices and projects by Amber
+# NOTEs
+
 GZQ学习笔记
 
 --------------2020/11/4--------------
