@@ -1,0 +1,363 @@
+```shell
+root@e420f0ca581e:/# ls /output_path
+aircraft_results.json
+root@e420f0ca581e:/# vi aircraft_results.json
+root@e420f0ca581e:/# rm aircraft_results.json
+root@e420f0ca581e:/# vi /output_path/aircraft_results.json
+root@e420f0ca581e:/# rm /output_path/aircraft_results.json
+root@e420f0ca581e:/# cd /input_path
+root@e420f0ca581e:/input_path# ls
+46.png  74.png
+root@e420f0ca581e:/input_path# rm 46.png 74.png
+root@e420f0ca581e:/input_path# cd ..
+root@e420f0ca581e:/# cd work
+root@e420f0ca581e:/work# ls
+__pycache__  change_to_json.py  check  data  demo_obb_own.py  main.py  mmdetection  precut_overlap_png.py  unionresult_overlap_xie.py
+root@e420f0ca581e:/work# rm -r data
+root@e420f0ca581e:/work# exit
+exit
+(base) spl6@spl6-MS-7B61:/media/spl6/4b7bbfe1-c36e-4ba7-933c-3f90a65d4c91/home/spl6/Docker-zg/workdir_2$ docker commit --change='CMD ["python3","-u","/work/main.py"]' zen_goodall image.rsaicp.com/i13667162816/test0:0.0.3sha256:a03ed340cc23b2edfc995eb45c10b3ca976621d110123082dcdd53e9a28979a9
+(base) spl6@spl6-MS-7B61:/media/spl6/4b7bbfe1-c36e-4ba7-933c-3f90a65d4c91/home/spl6/Docker-zg/workdir_2$ docker run -it --rm -v /media/spl6/4b7bbfe1-c36e-4ba7-933c-3f90a65d4c91/home/spl6/Docker-zg/workdir_2/input_path/:/input_path -v /media/spl6/4b7bbfe1-c36e-4ba7-933c-3f90a65d4c91/home/spl6/Docker-zg/workdir_2/output_path/:/output_path --gpus all image.rsaicp.com/i13667162816/test0:0.0.3
+6
+6
+3 band
+6
+6
+3 band
+/usr/local/lib/python3.6/dist-packages/mmdet/models/builder.py:52: UserWarning: train_cfg and test_cfg is deprecated, please specify them in model
+  'please specify them in model', UserWarning)
+Use load_from_local loader
+/usr/local/lib/python3.6/dist-packages/mmdet/datasets/utils.py:68: UserWarning: "ImageToTensor" pipeline is replaced by "DefaultFormatBundle" for batch inference. It is recommended to manually replace it in the test data pipeline in your config file.
+  'data pipeline in your config file.', UserWarning)
+1 72
+2 72
+3 72
+
+ [[471 369]]] (26, 1, 2) int32
+46 72
+47 72
+48 72
+[[[363 331]]
+ [[372 331]]] (32, 1, 2) int32
+49 72
+50 72
+51 72
+52 72
+[[[814 559]]
+ [[819 559]]] (42, 1, 2) int32
+53 72
+[[[ 33 622]]
+ [[ 36 622]]] (65, 1, 2) int32
+[[[467 501]]
+ [[474 501]]] (33, 1, 2) int32
+54 72
+55 72
+56 72
+57 72
+58 72
+59 72
+[[[533 286]]
+ [[435 285]]] (93, 1, 2) int32
+60 72
+61 72
+62 72
+63 72
+[[[ 979  138]]
+ [[848 231]]] (69, 1, 2) int32
+64 72
+65 72
+66 72
+[[[678 341]]
+ [[910 284]]
+ [[909 283]]] (98, 1, 2) int32
+[[[544 187]]
+ [[547 189]]
+ [[546 189]]] (91, 1, 2) int32
+67 72
+68 72
+69 72
+70 72
+[[[111 558]]
+ [[124 562]]
+ [[123 562]]
+ [[119 558]]] (22, 1, 2) int32
+71 72
+72 72
+['74', '46', '74', '46', '74', '46', '74', '46', '74', '46', '74', '46', '74', '46', '74', '46', '74', '46', '74', '46', '74', '46', '74', '46', '74', '46', '74', '46', '74', '46', '74', '46']
+1850,3571,1822,3538,1790,3564,1818,3597,1.0,2
+1711,3665,1686,3632,1654,3656,1679,3689,1.0,2
+2027,3549,2003,3512,1967,3535,1992,3572,0.999,2
+3539,4027,3539,4010,3521,4010,3521,4027,0.7,4
+1615,3823,1615,3793,1569,3793,1569,3823,0.058,2
+2593,3316,2572,3295,2555,3313,2575,3333,0.055,5
+/work/unionresult_overlap_xie.py:30: RuntimeWarning: divide by zero encountered in double_scalars
+  angle = math.atan((y2-y1)/(x1-x2))  # \u89d2\u5ea6\u4e3a\u5f27\u5ea6
+1258,1767,1252,1682,1168,1687,1174,1773,0.994,8
+1657,346,1610,273,1573,297,1621,370,0.993,9
+1437,396,1384,333,1360,353,1412,416,0.991,9
+3637,2676,3624,2653,3605,2663,3619,2687,0.505,4
+3620,1676,3573,1621,3522,1664,3569,1719,0.115,9
+1076,2455,1076,2431,1052,2431,1052,2455,0.074,4
+2968,4090,2968,4071,2954,4071,2954,4090,0.052,1
+total time: 136.55307960510254
+(base) spl6@spl6-MS-7B61:/media/spl6/4b7bbfe1-c36e-4ba7-933c-3f90a65d4c91/home/spl6/Docker-zg/workdir_2$ docker images -a
+REPOSITORY                            TAG                               IMAGE ID       CREATED         SIZE
+image.rsaicp.com/i13667162816/test0   0.0.3                             a03ed340cc23   6 minutes ago   18.1GB
+nice                                  v9                                5ac8041d7faa   42 hours ago    18.4GB
+nice                                  v8                                9de2e8a6d6b6   43 hours ago    20.1GB
+nice                                  v7                                f0ac23260020   2 days ago      27.4GB
+image.rsaicp.com/i13667162816/test0   0.0.2                             0c903c541cd7   2 days ago      12.6GB
+<none>                                <none>                            f357173a7413   2 days ago      12.6GB
+<none>                                <none>                            d881bc769680   2 days ago      12.6GB
+<none>                                <none>                            9621dc62342a   2 days ago      12.6GB
+<none>                                <none>                            97f2ff14b2e2   2 days ago      12.6GB
+<none>                                <none>                            e7e3b2b404a7   2 days ago      12.6GB
+image.rsaicp.com/i13667162816/test0   0.0.1                             d5c18af9c2d2   3 days ago      12.6GB
+<none>                                <none>                            ec2c4c5dc8ef   3 days ago      12.6GB
+<none>                                <none>                            ebe4257a2db3   3 days ago      12.6GB
+<none>                                <none>                            85041c746fc0   3 days ago      12.6GB
+<none>                                <none>                            36e1fad56ebe   3 days ago      12.6GB
+<none>                                <none>                            c7c6329da340   3 days ago      12.6GB
+<none>                                <none>                            14da1e1ea4bf   3 days ago      12.3GB
+<none>                                <none>                            d3aef3167830   3 days ago      12GB
+<none>                                <none>                            0593cfa8e3db   3 days ago      12GB
+<none>                                <none>                            9596eaa59652   3 days ago      12GB
+nice                                  v6                                095378205a95   7 days ago      27.4GB
+nice                                  v5                                5dc831228cd4   9 days ago      8.07GB
+<none>                                <none>                            454d1d6207f0   9 days ago      8.07GB
+<none>                                <none>                            ca5c44c4ecbf   9 days ago      8.07GB
+<none>                                <none>                            711dccf22b11   10 days ago     8.07GB
+<none>                                <none>                            0a45a143a74c   10 days ago     3.9GB
+ubuntu                                latest                            c29284518f49   2 weeks ago     72.8MB
+pytorch/pytorch                       1.7.0-cuda11.0-cudnn8-devel       f20d42e5d606   9 months ago    12GB
+image.rsaicp.com/base/cuda            11.0-cudnn8-runtime-ubuntu18.04   848be2582b0a   9 months ago    3.6GB
+nvidia/cuda                           11.0-base                         2ec708416bb8   11 months ago   122MB
+(base) spl6@spl6-MS-7B61:/media/spl6/4b7bbfe1-c36e-4ba7-933c-3f90a65d4c91/home/spl6/Docker-zg/workdir_2$
+(base) spl6@spl6-MS-7B61:/media/spl6/4b7bbfe1-c36e-4ba7-933c-3f90a65d4c91/home/spl6/Docker-zg/workdir_2$ docker login image.rsaicp.com -u i13667162816 -p WHU123456
+WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+Error response from daemon: Get https://image.rsaicp.com/v2/: unauthorized: authentication required
+(base) spl6@spl6-MS-7B61:/media/spl6/4b7bbfe1-c36e-4ba7-933c-3f90a65d4c91/home/spl6/Docker-zg/workdir_2$ docker login image.rsaicp.com -u whh -p WHU123456
+WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+Error response from daemon: Get https://image.rsaicp.com/v2/: unauthorized: authentication required
+(base) spl6@spl6-MS-7B61:/media/spl6/4b7bbfe1-c36e-4ba7-933c-3f90a65d4c91/home/spl6/Docker-zg/workdir_2$ docker login image.rsaicp.com -u EIS_DET -p WHU123456
+WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+Error response from daemon: Get https://image.rsaicp.com/v2/: unauthorized: authentication required
+(base) spl6@spl6-MS-7B61:/media/spl6/4b7bbfe1-c36e-4ba7-933c-3f90a65d4c91/home/spl6/Docker-zg/workdir_2$ docker login image.rsaicp.com -u i13667162816 -p whu123456
+WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+Error response from daemon: Get https://image.rsaicp.com/v2/: unauthorized: authentication required
+(base) spl6@spl6-MS-7B61:/media/spl6/4b7bbfe1-c36e-4ba7-933c-3f90a65d4c91/home/spl6/Docker-zg/workdir_2$ docker login image.rsaicp.com -u whh -p whu123456
+WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+Error response from daemon: Get https://image.rsaicp.com/v2/: unauthorized: authentication required
+(base) spl6@spl6-MS-7B61:/media/spl6/4b7bbfe1-c36e-4ba7-933c-3f90a65d4c91/home/spl6/Docker-zg/workdir_2$ docker login image.rsaicp.com -u whh --password WHU123456
+WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+Error response from daemon: Get https://image.rsaicp.com/v2/: unauthorized: authentication required
+(base) spl6@spl6-MS-7B61:/media/spl6/4b7bbfe1-c36e-4ba7-933c-3f90a65d4c91/home/spl6/Docker-zg/workdir_2$ docker login image.rsaicp.com
+Username: whh
+Password:
+Error response from daemon: Get https://image.rsaicp.com/v2/: unauthorized: authentication required
+(base) spl6@spl6-MS-7B61:/media/spl6/4b7bbfe1-c36e-4ba7-933c-3f90a65d4c91/home/spl6/Docker-zg/workdir_2$ docker login image.rsaicp.com
+Username: whh
+Password:
+Error response from daemon: Get https://image.rsaicp.com/v2/: unauthorized: authentication required
+(base) spl6@spl6-MS-7B61:/media/spl6/4b7bbfe1-c36e-4ba7-933c-3f90a65d4c91/home/spl6/Docker-zg/workdir_2$ sudo docker login image.rsaicp.com
+[sudo] spl6 的密码：
+Username: whh
+Password:
+Error response from daemon: Get https://image.rsaicp.com/v2/: unauthorized: authentication required
+(base) spl6@spl6-MS-7B61:/media/spl6/4b7bbfe1-c36e-4ba7-933c-3f90a65d4c91/home/spl6/Docker-zg/workdir_2$ docker login image.rsaicp.comUsername: i13667162816
+Password:
+WARNING! Your password will be stored unencrypted in /home/spl6/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+(base) spl6@spl6-MS-7B61:/media/spl6/4b7bbfe1-c36e-4ba7-933c-3f90a65d4c91/home/spl6/Docker-zg/workdir_2$
+(base) spl6@spl6-MS-7B61:/media/spl6/4b7bbfe1-c36e-4ba7-933c-3f90a65d4c91/home/spl6/Docker-zg/workdir_2$ docker images -a
+REPOSITORY                            TAG                               IMAGE ID       CREATED          SIZE
+image.rsaicp.com/i13667162816/test0   0.0.3                             a03ed340cc23   22 minutes ago   18.1GB
+nice                                  v9                                5ac8041d7faa   43 hours ago     18.4GB
+nice                                  v8                                9de2e8a6d6b6   43 hours ago     20.1GB
+nice                                  v7                                f0ac23260020   2 days ago       27.4GB
+image.rsaicp.com/i13667162816/test0   0.0.2                             0c903c541cd7   2 days ago       12.6GB
+<none>                                <none>                            f357173a7413   2 days ago       12.6GB
+<none>                                <none>                            d881bc769680   2 days ago       12.6GB
+<none>                                <none>                            9621dc62342a   2 days ago       12.6GB
+<none>                                <none>                            97f2ff14b2e2   2 days ago       12.6GB
+<none>                                <none>                            e7e3b2b404a7   2 days ago       12.6GB
+image.rsaicp.com/i13667162816/test0   0.0.1                             d5c18af9c2d2   3 days ago       12.6GB
+<none>                                <none>                            ec2c4c5dc8ef   3 days ago       12.6GB
+<none>                                <none>                            ebe4257a2db3   3 days ago       12.6GB
+<none>                                <none>                            85041c746fc0   3 days ago       12.6GB
+<none>                                <none>                            36e1fad56ebe   3 days ago       12.6GB
+<none>                                <none>                            c7c6329da340   3 days ago       12.6GB
+<none>                                <none>                            14da1e1ea4bf   3 days ago       12.3GB
+<none>                                <none>                            d3aef3167830   3 days ago       12GB
+<none>                                <none>                            0593cfa8e3db   3 days ago       12GB
+<none>                                <none>                            9596eaa59652   3 days ago       12GB
+nice                                  v6                                095378205a95   7 days ago       27.4GB
+nice                                  v5                                5dc831228cd4   9 days ago       8.07GB
+<none>                                <none>                            454d1d6207f0   9 days ago       8.07GB
+<none>                                <none>                            ca5c44c4ecbf   9 days ago       8.07GB
+<none>                                <none>                            711dccf22b11   10 days ago      8.07GB
+<none>                                <none>                            0a45a143a74c   10 days ago      3.9GB
+ubuntu                                latest                            c29284518f49   2 weeks ago      72.8MB
+pytorch/pytorch                       1.7.0-cuda11.0-cudnn8-devel       f20d42e5d606   9 months ago     12GB
+image.rsaicp.com/base/cuda            11.0-cudnn8-runtime-ubuntu18.04   848be2582b0a   9 months ago     3.6GB
+nvidia/cuda                           11.0-base                         2ec708416bb8   11 months ago    122MB
+(base) spl6@spl6-MS-7B61:/media/spl6/4b7bbfe1-c36e-4ba7-933c-3f90a65d4c91/home/spl6/Docker-zg/workdir_2$ docker push image.rsaicp.com/i13667162816/test0:0.0.3
+The push refers to repository [image.rsaicp.com/i13667162816/test0]
+4155a2c28e14: Pushing [==================================================>]  10.03GB
+e1f14dfac712: Pushed
+60034c83cb7e: Pushed
+e517b56e9003: Pushed
+a2c2becaa36c: Pushed
+2c57b9098109: Pushed
+842c2ffdcad9: Mounted from base/cuda
+03aea7c9e3d1: Mounted from base/cuda
+53194dce1444: Mounted from base/cuda
+ef8330bcc944: Mounted from base/cuda
+964ee116c0c0: Mounted from base/cuda
+7a694df0ad6c: Mounted from base/cuda
+3fd9df553184: Mounted from base/cuda
+805802706667: Mounted from base/cuda
+unauthorized: unauthorized to access repository: i13667162816/test0, action: push: unauthorized to access repository: i13667162816/test0, action: push
+(base) spl6@spl6-MS-7B61:/media/spl6/4b7bbfe1-c36e-4ba7-933c-3f90a65d4c91/home/spl6/Docker-zg/workdir_2$ docker login image.rsaicp.comAuthenticating with existing credentials...
+WARNING! Your password will be stored unencrypted in /home/spl6/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+(base) spl6@spl6-MS-7B61:/media/spl6/4b7bbfe1-c36e-4ba7-933c-3f90a65d4c91/home/spl6/Docker-zg/workdir_2$ docker push image.rsaicp.com/i13667162816/test0:0.0.3
+The push refers to repository [image.rsaicp.com/i13667162816/test0]
+4155a2c28e14: Pushing [================================>                  ]  6.398GB/9.984GB
+e1f14dfac712: Layer already exists
+60034c83cb7e: Layer already exists
+e517b56e9003: Layer already exists
+a2c2becaa36c: Layer already exists
+2c57b9098109: Layer already exists
+842c2ffdcad9: Layer already exists
+03aea7c9e3d1: Layer already exists
+53194dce1444: Layer already exists
+ef8330bcc944: Layer already exists
+964ee116c0c0: Layer already exists
+7a694df0ad6c: Layer already exists
+3fd9df553184: Layer already exists
+805802706667: Layer already exists
+^Z
+[1]+  已停止               docker push image.rsaicp.com/i13667162816/test0:0.0.3
+(base) spl6@spl6-MS-7B61:/media/spl6/4b7bbfe1-c36e-4ba7-933c-3f90a65d4c91/home/spl6/Docker-zg/workdir_2$ docker login image.rsaicp.comAuthenticating with existing credentials...
+WARNING! Your password will be stored unencrypted in /home/spl6/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+(base) spl6@spl6-MS-7B61:/media/spl6/4b7bbfe1-c36e-4ba7-933c-3f90a65d4c91/home/spl6/Docker-zg/workdir_2$ docker images -a
+REPOSITORY                            TAG                               IMAGE ID       CREATED         SIZE
+image.rsaicp.com/i13667162816/test0   0.0.3                             a03ed340cc23   4 hours ago     18.1GB
+nice                                  v9                                5ac8041d7faa   46 hours ago    18.4GB
+nice                                  v8                                9de2e8a6d6b6   47 hours ago    20.1GB
+nice                                  v7                                f0ac23260020   2 days ago      27.4GB
+image.rsaicp.com/i13667162816/test0   0.0.2                             0c903c541cd7   2 days ago      12.6GB
+<none>                                <none>                            f357173a7413   2 days ago      12.6GB
+<none>                                <none>                            d881bc769680   2 days ago      12.6GB
+<none>                                <none>                            9621dc62342a   2 days ago      12.6GB
+<none>                                <none>                            97f2ff14b2e2   2 days ago      12.6GB
+<none>                                <none>                            e7e3b2b404a7   2 days ago      12.6GB
+image.rsaicp.com/i13667162816/test0   0.0.1                             d5c18af9c2d2   3 days ago      12.6GB
+<none>                                <none>                            ec2c4c5dc8ef   3 days ago      12.6GB
+<none>                                <none>                            ebe4257a2db3   3 days ago      12.6GB
+<none>                                <none>                            85041c746fc0   3 days ago      12.6GB
+<none>                                <none>                            36e1fad56ebe   3 days ago      12.6GB
+<none>                                <none>                            c7c6329da340   3 days ago      12.6GB
+<none>                                <none>                            14da1e1ea4bf   3 days ago      12.3GB
+<none>                                <none>                            d3aef3167830   3 days ago      12GB
+<none>                                <none>                            0593cfa8e3db   3 days ago      12GB
+<none>                                <none>                            9596eaa59652   3 days ago      12GB
+nice                                  v6                                095378205a95   7 days ago      27.4GB
+nice                                  v5                                5dc831228cd4   9 days ago      8.07GB
+<none>                                <none>                            454d1d6207f0   9 days ago      8.07GB
+<none>                                <none>                            ca5c44c4ecbf   9 days ago      8.07GB
+<none>                                <none>                            711dccf22b11   10 days ago     8.07GB
+<none>                                <none>                            0a45a143a74c   10 days ago     3.9GB
+ubuntu                                latest                            c29284518f49   2 weeks ago     72.8MB
+pytorch/pytorch                       1.7.0-cuda11.0-cudnn8-devel       f20d42e5d606   9 months ago    12GB
+image.rsaicp.com/base/cuda            11.0-cudnn8-runtime-ubuntu18.04   848be2582b0a   9 months ago    3.6GB
+nvidia/cuda                           11.0-base                         2ec708416bb8   11 months ago   122MB
+(base) spl6@spl6-MS-7B61:/media/spl6/4b7bbfe1-c36e-4ba7-933c-3f90a65d4c91/home/spl6/Docker-zg/workdir_2$ docker tag a03ed340cc23 test0:0.0.3
+(base) spl6@spl6-MS-7B61:/media/spl6/4b7bbfe1-c36e-4ba7-933c-3f90a65d4c91/home/spl6/Docker-zg/workdir_2$ docker images -a
+REPOSITORY                            TAG                               IMAGE ID       CREATED         SIZE
+image.rsaicp.com/i13667162816/test0   0.0.3                             a03ed340cc23   4 hours ago     18.1GB
+test0                                 0.0.3                             a03ed340cc23   4 hours ago     18.1GB
+nice                                  v9                                5ac8041d7faa   46 hours ago    18.4GB
+nice                                  v8                                9de2e8a6d6b6   47 hours ago    20.1GB
+nice                                  v7                                f0ac23260020   2 days ago      27.4GB
+image.rsaicp.com/i13667162816/test0   0.0.2                             0c903c541cd7   2 days ago      12.6GB
+<none>                                <none>                            f357173a7413   2 days ago      12.6GB
+<none>                                <none>                            d881bc769680   2 days ago      12.6GB
+<none>                                <none>                            9621dc62342a   2 days ago      12.6GB
+<none>                                <none>                            97f2ff14b2e2   2 days ago      12.6GB
+<none>                                <none>                            e7e3b2b404a7   2 days ago      12.6GB
+image.rsaicp.com/i13667162816/test0   0.0.1                             d5c18af9c2d2   3 days ago      12.6GB
+<none>                                <none>                            ec2c4c5dc8ef   3 days ago      12.6GB
+<none>                                <none>                            ebe4257a2db3   3 days ago      12.6GB
+<none>                                <none>                            85041c746fc0   3 days ago      12.6GB
+<none>                                <none>                            36e1fad56ebe   3 days ago      12.6GB
+<none>                                <none>                            c7c6329da340   3 days ago      12.6GB
+<none>                                <none>                            14da1e1ea4bf   3 days ago      12.3GB
+<none>                                <none>                            d3aef3167830   3 days ago      12GB
+<none>                                <none>                            0593cfa8e3db   3 days ago      12GB
+<none>                                <none>                            9596eaa59652   3 days ago      12GB
+nice                                  v6                                095378205a95   7 days ago      27.4GB
+nice                                  v5                                5dc831228cd4   9 days ago      8.07GB
+<none>                                <none>                            454d1d6207f0   9 days ago      8.07GB
+<none>                                <none>                            ca5c44c4ecbf   9 days ago      8.07GB
+<none>                                <none>                            711dccf22b11   10 days ago     8.07GB
+<none>                                <none>                            0a45a143a74c   10 days ago     3.9GB
+ubuntu                                latest                            c29284518f49   2 weeks ago     72.8MB
+pytorch/pytorch                       1.7.0-cuda11.0-cudnn8-devel       f20d42e5d606   9 months ago    12GB
+image.rsaicp.com/base/cuda            11.0-cudnn8-runtime-ubuntu18.04   848be2582b0a   9 months ago    3.6GB
+nvidia/cuda                           11.0-base                         2ec708416bb8   11 months ago   122MB
+(base) spl6@spl6-MS-7B61:/media/spl6/4b7bbfe1-c36e-4ba7-933c-3f90a65d4c91/home/spl6/Docker-zg/workdir_2$ docker push image.rsaicp.com/i13667162816/test0:0.0.3
+The push refers to repository [image.rsaicp.com/i13667162816/test0]
+4155a2c28e14: Pushing [==================================================>]  10.03GB
+e1f14dfac712: Layer already exists
+60034c83cb7e: Layer already exists
+e517b56e9003: Layer already exists
+a2c2becaa36c: Layer already exists
+2c57b9098109: Layer already exists
+842c2ffdcad9: Layer already exists
+03aea7c9e3d1: Layer already exists
+53194dce1444: Layer already exists
+ef8330bcc944: Layer already exists
+964ee116c0c0: Layer already exists
+7a694df0ad6c: Layer already exists
+3fd9df553184: Layer already exists
+805802706667: Layer already exists
+unauthorized: unauthorized to access repository: i13667162816/test0, action: push: unauthorized to access repository: i13667162816/test0, action: push
+(base) spl6@spl6-MS-7B61:/media/spl6/4b7bbfe1-c36e-4ba7-933c-3f90a65d4c91/home/spl6/Docker-zg/workdir_2$ docker login image.rsaicp.com
+Authenticating with existing credentials...
+WARNING! Your password will be stored unencrypted in /home/spl6/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+(base) spl6@spl6-MS-7B61:/media/spl6/4b7bbfe1-c36e-4ba7-933c-3f90a65d4c91/home/spl6/Docker-zg/workdir_2$ docker push image.rsaicp.com/i13667162816/test0:0.0.3
+The push refers to repository [image.rsaicp.com/i13667162816/test0]
+4155a2c28e14: Pushing [==================================================>]  10.03GB
+e1f14dfac712: Layer already exists
+60034c83cb7e: Layer already exists
+e517b56e9003: Layer already exists
+a2c2becaa36c: Layer already exists
+2c57b9098109: Layer already exists
+842c2ffdcad9: Layer already exists
+03aea7c9e3d1: Layer already exists
+53194dce1444: Layer already exists
+ef8330bcc944: Layer already exists
+964ee116c0c0: Layer already exists
+7a694df0ad6c: Layer already exists
+3fd9df553184: Layer already exists
+805802706667: Layer already exists
+unauthorized: unauthorized to access repository: i13667162816/test0, action: push: unauthorized to access repository: i13667162816/test0, action: push
+(base) spl6@spl6-MS-7B61:
+```
+
