@@ -107,7 +107,7 @@ for NER.
 In addition, this property will lose when used in the vanilla Transformer. 
 However, both the direction and distance information are important in the NER task.
 
-![](sentence1.jpg)
+![](images/sentence1.jpg)
 
 For example in Fig 1, words after “in” are more likely to be a location or time than words before it, and words before “Inc.” are mostly likely to be of the entity type “ORG”. Besides, an entity is a continuous span of words.
 Therefore, the awareness of distance might help the word better recognizes its neighbor. 
@@ -225,13 +225,13 @@ Then three learnable matrix Wq, Wk, Wv are used to project H into different spac
 Usually, the matrix size of the three matrix are all Rddk , where dk is a hyper-parameter. 
 After that, the scaled dotproduct attention can be calculated by the following equations,
 
-![](graph3-1.jpg)
+![](images/graph3-1.jpg)
 我们首先介绍Transformer编码器，这是在2017年提出的。Transformer编码器考虑了l*d维地矩阵，这里l是序列长度，d是输入维度。
 然后使用三个可学习的矩阵wq,wk,wv将H映射到不同的空间。
 通常，这三个矩阵的大小都是d*dk，这里dk是超参数。
 之后，这个比例的点产品attention可以被下面的公式计算。
 
-![](equation123.jpg)
+![](images/equation123.jpg)
 
 >where Qt is the query vector of the tth token, j is the token the tth token attends. 
 Kj is the key vector representation of the jth token. 
@@ -239,13 +239,13 @@ The softmax is along the last dimension.
 Instead of using one group of Wq, Wk, Wv, using several groups will enhance the ability of self-attention. 
 When several groups are used, it is called multi-head selfattention, the calculation can be formulated as follows,
 
-![](graph3-2.jpg)
+![](images/graph3-2.jpg)
 这里Qt是第t个token的查询向量，j是第t个token的伴随token。
 kj是第j个token关键向量的代表。
 不使用一个组的wq,wk,wv,而是使用几个组能够增强self-attention的能力。
 当使用多个组时，称为多头自注意力，计算公式如下， 
 
-![](equation456.jpg)
+![](images/equation456.jpg)
 
 >where n is the number of heads, the superscript h represents the head index. 
 [head(1); :::; head(n)] means concatenation in the last dimension. 
@@ -253,7 +253,7 @@ Usually dk  n = d, which means the output of [head(1); :::; head(n)] will be of
 Wo is a learnable parameter, which is of size Rdd.
 The output of the multi-head attention will be further processed by the position-wise feedforward networks, which can be represented as follows,
 
-![](graph3-3.jpg)
+![](images/graph3-3.jpg)
 
 其中 n 是head的数量，上标 h 代表head索引。
 [head(1); :::; head(n)] 表示最后一维的串联。
@@ -261,12 +261,12 @@ The output of the multi-head attention will be further processed by the position
 Wo 是一个可学习的参数，其大小为 d* d。
 多头注意力的输出将被位置前馈网络进一步处理，可以表示如下， 
 
-![](equation7.jpg)
+![](images/equation7.jpg)
 
 >where W1, W2, b1, b2 are learnable parameters, and W1 2 Rddff , W2 2 Rdffd, b1 2 Rdff , b2 2 Rd. dff is a hyper-parameter. 
 Other components of the Transformer encoder includes layer normalization and Residual connection, we use them the same as (Vaswani et al., 2017).
 
-![](graph3-4.jpg)
+![](images/graph3-4.jpg)
 
 Transformer 编码器的其他组件包括层归一化和残差连接，我们使用它们与 (Vaswani et al., 2017) 相同。 
 
@@ -281,13 +281,13 @@ The tth token’s position embedding can be represented by the following equatio
 为了解决这个问题，(Vaswani et al., 2017) 建议使用由不同频率的正弦曲线生成的位置嵌入。
 第 t 个令牌的位置嵌入可以由以下等式表示 
 
-![](equation89.jpg)
+![](images/equation89.jpg)
 
 where i is in the range of [0; d 2 ], d is the input dimension.
 This sinusoid based position embedding makes Transformer have an ability to model the position of a token and the distance of each two tokens.
 For any fixed offset k, PEt+k can be represented by a linear transformation of PEt (Vaswani et al., 2017).
 
-![](graph3-5.jpg)
+![](images/graph3-5.jpg)
 
 其中 i 在 [0; d /2 ]，d 是输入维度。
 这种基于正弦曲线的位置嵌入使 Transformer 能够对标记的位置和每两个标记的距离进行建模。
@@ -295,7 +295,7 @@ For any fixed offset k, PEt+k can be represented by a linear transformation of P
 
 ## 1.3 Proposed Model
 
-![](network.jpg)
+![](images/network.jpg)
 
 >In this paper, we utilize the Transformer encoder to model the long-range and complicated interactions of sentence for NER. 
 The structure of proposed model is shown in Fig 2. 
@@ -342,9 +342,12 @@ To illustrate this, we first prove two properties of the sinusoidal position emb
 为了说明这一点，我们首先证明了正弦位置嵌入的两个属性。 
 
 **属性1**
-![](property1.jpg)
+
+![](images/property1.jpg)
+
 证明
-![](equation10111213.jpg)
+
+![](images/equation10111213.jpg)
 
 这两个正弦位置嵌入的点积可以反映两个token之间的距离。 
 
@@ -356,7 +359,170 @@ To illustrate this, we first prove two properties of the sinusoidal position emb
 
 ### 1.3.3 CRF Layer
 
+## 1.4 Experiment
 
+### 1.4.1 Data
+
+> We evaluate our model in two English NER datasets and four Chinese NER datasets.
+(1) CoNLL2003 is one of the most evaluated English NER datasets, which contains four different named entities: 
+PERSON, LOCATION, ORGANIZATION, and MISC (Sang and Meulder, 2003).
+(2) OntoNotes 5.0 is an English NER dataset whose corpus comes from different domains, such as telephone conversation, newswire.
+We exclude the New Testaments portion since there is no named entity in it (Chen et al., 2019; Chiu and Nichols, 2016). 
+This dataset has eleven entity names and seven value types, like CARDINAL, MONEY, LOC.
+(3) Weischedel (2011) released OntoNotes 4.0. 
+In this paper, we use the Chinese part. We adopted the same pre-process as (Che et al., 2013).
+(4) The corpus of the Chinese NER dataset MSRA came from news domain (Levow, 2006).
+(5) Weibo NER was built based on text in Chinese social media Sina Weibo (Peng and Dredze, 2015), and it contained 4 kinds of entities.
+(6) Resume NER was annotated by (Zhang and Yang, 2018).
+
+我们在两个英文 NER 数据集和四个中文 NER 数据集上评估我们的模型。
+(1) CoNLL2003 是评价最高的英语 NER 数据集之一，它包含四个不同的命名实体：
+人、位置、组织和其他（Sang 和 Meulder，2003 年）。
+(2) OntoNotes 5.0是英文NER数据集，其语料来自不同领域，如电话交谈、新闻专线等。
+我们排除了New Testaments部分，因为其中没有命名实体（Chen 等，2019；Chiu 和 Nichols，2016）。
+该数据集有 11 个实体名称和 7 个值类型，如 CARDINAL、MONEY、LOC。
+(3) Weischedel (2011) 发布 OntoNotes 4.0。
+在本文中，我们使用中文部分。我们采用了与 (Che et al., 2013) 相同的预处理。
+(4) 中文 NER 数据集 MSRA 的语料库来自新闻领域 (Levow, 2006)。
+(5) 微博NER是基于中国社交媒体新浪微博(Peng and Dredze, 2015)中的文本构建的，它包含4种实体。
+(6) Resume NER 由 (Zhang and Yang, 2018) 注释。
+
+>Their statistics are listed in Table 1. 
+For all datasets, we replace all digits with “0”, and use the BIOES tag schema. 
+For English, we use the Glove 100d pre-trained embedding (Pennington et al., 2014). 
+For the character encoder, we use 30d randomly initialized character embeddings. 
+More details on models’ hyper-parameters can be found in the supplementary material. 
+For Chinese, we used the character embedding and bigram embedding released by (Zhang and Yang, 2018). 
+All pretrained embeddings are finetuned during training.
+In order to reduce the impact of randomness, we ran all of our experiments at least three times, and its average F1 score and standard deviation are reported.
+
+![](images/table1.png)
+
+他们的统计数据如表 1 所示。
+对于所有数据集，我们将所有数字替换为“0”，并使用 BIOES 标记模式。
+对于英语，我们使用 Glove 100d 预训练嵌入 (Pennington et al., 2014)。
+对于字符编码器，我们使用 30d 随机初始化的字符嵌入。
+有关模型超参数的更多详细信息，请参见补充材料。
+对于中文，我们使用了 (Zhang and Yang, 2018) 发布的字符嵌入和二元嵌入。
+所有预训练的嵌入都在训练期间进行了微调。
+为了减少随机性的影响，我们将所有实验至少运行了 3 次，并报告了其平均 F1 分数和标准偏差。
+
+>We used random-search to find the optimal hyper-parameters, hyper-parameters and their ranges are displayed in the supplemental material.
+We use SGD and 0.9 momentum to optimize the model. 
+We run 100 epochs and each batch has 16 samples. 
+During the optimization, we use the triangle learning rate (Smith, 2017) where the learning rate rises to the pre-set learning rate at the first 1% steps and decreases to 0 in the left 99% steps. 
+The model achieves the highest development performance was used to evaluate the test set. 
+The hyper-parameter search range and other settings can be found in the supplementary material.
+Codes are available at https://github.com/fastnlp/TENER.
+
+我们使用随机搜索来找到最佳超参数，超参数及其范围显示在补充材料中。
+我们使用 SGD 和 0.9 动量来优化模型。
+我们运行了 100 个 epoch，每个批次有 16 个样本。
+在优化过程中，我们使用三角形学习率 (Smith, 2017)，其中学习率在前 1% 步上升到预设学习率，并在左侧 99% 步中下降到 0。
+该模型实现了最高的开发性能，用于评估测试集。
+超参数搜索范围和其他设置可以在补充材料中找到。
+代码可在 https://github.com/fastnlp/TENER 获得。
+
+### 1.4.2 Results in Chinese NER datasets
+
+>We first present our results in the four Chinese NER datasets. 
+Since Chinese NER is directly based on the characters, it is more straightforward to show the abilities of different models without considering the influence of word representation.
+我们首先在四个中文 NER 数据集中展示我们的结果。
+由于中文 NER 直接基于字符，因此在不考虑词表示的影响的情况下，可以更直接地展示不同模型的能力。 
+
+![](images/table2.png)
+
+>As shown in Table 2, the vanilla Transformer does not perform well and is worse than the BiLSTM and CNN based models. However, when relative positional encoding combined, the performance was enhanced greatly, resulting in better results than the BiLSTM and CNN in all datasets.
+The number of training examples of the Weibo dataset is tiny, therefore the performance of the Transformer is abysmal, which is as expected since the Transformer is data-hungry. 
+Nevertheless, when enhanced with the relative positional encoding and unscaled attention, it can achieve even better performance than the BiLSTM-based model. 
+The superior performance of the adapted Transformer in four datasets ranging from small datasets to big datasets depicts that the adapted Transformer is more robust to the number of training examples than the vanilla Transformer. 
+As the last line of Table 2 depicts, the scaled attention will deteriorate the performance.
+
+如表 2 所示，vanilla Transformer 表现不佳，并且比基于 BiLSTM 和 CNN 的模型差。 然而，当相对位置编码相结合时，性能得到了极大的提升，在所有数据集上都取得了比 BiLSTM 和 CNN 更好的结果。
+微博数据集的训练样本数量很少，因此 Transformer 的性能非常糟糕，这符合预期，因为 Transformer 需要大量数据。
+尽管如此，当使用相对位置编码和未缩放的注意力进行增强时，它可以获得比基于 BiLSTM 的模型更好的性能。
+适配 Transformer 在从小数据集到大数据集的四个数据集中的卓越性能表明适配 Transformer 对训练示例的数量比 vanilla Transformer 更稳健。
+正如表 2 的最后一行所描述的，缩放注意力会降低性能。 
+
+### 1.4.3 Results in English NER datasets
+
+>The comparison between different NER models on English NER datasets is shown in Table 3.
+
+![](images/table3.png)
+
+>The poor performance of the Transformer in the NER datasets was also reported by (Guo et al., 2019). 
+Although performance of the Transformer is higher than (Guo et al., 2019), it still lags behind the BiLSTM-based models (Ma and Hovy, 2016). 
+Nonetheless, the performance is massively enhanced by incorporating the relative positional encoding and unscaled attention into the Transformer.
+The adaptation not only makes the Transformer achieve superior performance than BiLModels STM based models, 
+but also unveil the new state-of-the-art performance in two NER datasets when only the Glove 100d embedding and CNN character embedding are used. 
+The same deterioration of performance was observed when using the scaled attention. 
+Besides, if ELMo was used (Peters et al., 2018), the performance of TENER can be further boosted as depicted in Table 4.
+
+![](images/table4.png)
+
+不同NER模型在英语NER数据集上的比较如表3所示。
+(Guo et al., 2019) 也报告了 Transformer 在 NER 数据集中的糟糕表现。
+尽管 Transformer 的性能高于（Guo 等人，2019），但仍落后于基于 BiLSTM 的模型（Ma 和 Hovy，2016 年）。
+尽管如此，通过将相对位置编码和未缩放的注意力整合到 Transformer 中，性能得到了极大的提高。
+适配不仅使 Transformer 实现了优于 BiLModels STM 模型的性能，
+当仅使用 Glove 100d 嵌入和 CNN 字符嵌入时，还会在两个 NER 数据集中展示新的最先进性能。
+使用缩放注意力时，也观察到了同样的性能下降。
+此外，如果使用 ELMo（Peters 等，2018），TENER 的性能可以进一步提升，如表 4 所示。
+### 1.4.4 Analysis of Different Character Encoder
+
+>The character-level encoder has been widely used in the English NER task to alleviate the data sparsity and OOV problem in word representation. 
+In this section, we cross different character-level encoders (BiLSTM, CNN, Transformer encoder and our adapted Transformer encoder (AdaTrans for short)) and different word-level encoders (BiLSTM, ID-CNN and AdaTrans) to implement the NER task. 
+Results on CoNLL2003 and OntoNotes 5.0 are presented in Table 5a and Table 5b, respectively.
+The ID-CNN encoder is from (Strubell et al., 2017), and we re-implement their model in Py-Torch. 
+For different combinations, we use random search to find its best hyper-parameters. 
+Hyperparameters for character encoders were fixed. 
+The details can be found in the supplementary material.
+For the results on CoNLL2003 dataset which is depicted in Table 5a, the AdaTrans performs as good as the BiLSTM in different character encoder scenario averagely. 
+In addition, from Table 5b, we can find the pattern that the AdaTrans character encoder outpaces the BiLSTM and CNN character encoders when different word-level encoders being used. 
+Moreover, no matter what character encoder being used or none being used, the AdaTrans word-level encoder gets the best performance. 
+This implies that when the number of training examples increases, the AdaTrans character-level and word-level encoder can better realize their ability.
+
+字符级编码器已广泛用于英语 NER 任务中，以缓解单词表示中的数据稀疏性和 OOV 问题。
+在本节中，我们跨越不同的字符级编码器（BiLSTM、CNN、Transformer 编码器和我们适配的 Transformer 编码器（简称 AdaTrans））和不同的词级编码器（BiLSTM、ID-CNN 和 AdaTrans）来实现 NER 任务。
+CoNLL2003 和 OntoNotes 5.0 的结果分别列于表 5a 和表 5b 中。
+ID-CNN 编码器来自 (Strubell et al., 2017)，我们在 Py-Torch 中重新实现了他们的模型。
+对于不同的组合，我们使用随机搜索来找到其最佳超参数。
+字符编码器的超参数是固定的。
+详细信息可以在补充材料中找到。
+对于表 5a 中描述的 CoNLL2003 数据集的结果，AdaTrans 在不同字符编码器场景中的平均表现与 BiLSTM 一样好。
+此外，从表 5b 中，我们可以发现当使用不同的词级编码器时，AdaTrans 字符编码器超过 BiLSTM 和 CNN 字符编码器的模式。
+此外，无论使用何种字符编码器或不使用何种字符编码器，AdaTrans 字级编码器都能获得最佳性能。
+这意味着当训练样例数量增加时，AdaTrans 字符级和词级编码器可以更好地发挥其能力。 
+
+### 1.4.5 Convergent Speed Comparison
+
+We compare the convergent speed of BiLSTM, ID-CNN, Transformer, and TENER in the development set of the OntoNotes 5.0. 
+The curves areshown in Fig 5. 
+TENER converges as fast as the BiLSTM model and outperforms the vanilla Transformer.
+
+![](images/figure5.png)
+
+我们比较了 OntoNotes 5.0 的开发集中 BiLSTM、ID-CNN、Transformer 和 TENER 的收敛速度。
+曲线如图 5 所示。
+TENER 的收敛速度与 BiLSTM 模型一样快，并且优于 vanilla Transformer。
+
+## 1.5 Conclusion
+
+> In this paper, we propose TENER, a model adopting Transformer Encoder with specific customizations for the NER task. 
+Transformer Encoder has a powerful ability to capture the long-range context.
+In order to make the Transformer more suitable to the NER task, we introduce the direction-aware, distance-aware and un-scaled attention. 
+Experiments in two English NER tasks and four Chinese NER tasks show that the performance can be massively increased. 
+Under the same pretrained embeddings and external knowledge, our proposed modification outperforms previous models in the six datasets. 
+Meanwhile, we also found the adapted Transformer is suitable for being used as the English character encoder, because it has the potentiality to extract intricate patterns from characters. 
+Experiments in two English NER datasets show that the adapted Transformer character encoder performs better than BiLSTM and CNN character encoders.
+
+在本文中，我们提出了 TENER，这是一种采用 Transformer Encoder 的模型，具有针对 NER 任务的特定定制。
+Transformer Encoder 具有强大的捕获场范围上下文的能力。
+为了使 Transformer 更适合 NER 任务，我们引入了方向感知、距离感知和非缩放注意力。
+在两个英文 NER 任务和四个中文 NER 任务中的实验表明，性能可以大幅提升。
+在相同的预训练嵌入和外部知识下，我们提出的修改在六个数据集中优于以前的模型。
+同时，我们还发现适配后的 Transformer 适合用作英文字符编码器，因为它具有从字符中提取复杂模式的潜力。
+在两个英文 NER 数据集中的实验表明，适配后的 Transformer 字符编码器的性能优于 BiLSTM 和 CNN 字符编码器。 
 
 ## 2. important things
 
