@@ -8,57 +8,34 @@ Shanghai Key Laboratory of Intelligent Information Processing, Fudan University
 
 ## 1. translation and interpretion of n.
 ### 1.1 abstract
-> Bidirectional long short-term memory networks
-(BiLSTMs) have been widely used
-as an encoder for named entity recognition
-(NER) task.
+> Bidirectional long short-term memory networks (BiLSTMs) have been widely used as an encoder for named entity recognition (NER) task.
 
-> Recently, the fully-connected
-self-attention architecture (aka Transformer) is
-broadly adopted in various natural language
-processing (NLP) tasks owing to its parallelism
-and advantage in modeling the long range
-context. 
+> Recently, the fully-connected self-attention architecture (aka Transformer) is broadly adopted in various natural language processing (NLP) tasks owing to its parallelism and advantage in modeling the long range context. 
 
 Transformer在nlp的任务中如今很常用
 
-> Nevertheless, the performance
-of the ***vanilla*** Transformer in NER is not as
-good as it is in other NLP tasks. In this
-paper, we propose TENER, a NER architecture
-***adopting adapted Transformer Encoder*** to
-model the character-level features and wordlevel
-features. 
+> Nevertheless, the performance of the ***vanilla*** Transformer in NER is not as good as it is in other NLP tasks. 
+
+In this paper, we propose TENER, a NER architecture ***adopting adapted Transformer Encoder*** to model the character-level features and wordlevel features. 
 
 vanilla: 香草的，普通的，香草
 
 普通的tranformer不好用，在ner中表现不太好，所以提出了一种新的transformer结构去模拟字符和单词级别的特征。
 
 
-> By incorporating the directionaware,
-distance-aware and un-scaled attention,
-we prove the Transformer-like encoder is
-just as effective for NER as other NLP tasks.
-Experiments on six NER datasets show that
-TENER achieves superior performance than
-the prevailing BiLSTM-based models.
+> By incorporating the directionaware, distance-aware and un-scaled attention,
+we prove the Transformer-like encoder is just as effective for NER as other NLP tasks.
+Experiments on six NER datasets show that TENER achieves superior performance than the prevailing BiLSTM-based models.
 
 方向感知、距离感知和未缩放的attention机制结合，类似transformer的编码器还是有效的。
 
 ### 1.2 introduction
 
-> ***The named entity recognition (NER) is the task of
-finding the start and end of an entity in a sentence
-and assigning a class for this entity.*** NER has been
-widely studied in the field of natural language processing
-(NLP) because of its potential assistance
-in question generation (Zhou et al., 2017), relation
-extraction (Miwa and Bansal, 2016), and coreference
-resolution (Fragkou, 2017). Since (Collobert
-et al., 2011), various neural models have been introduced
-to avoid hand-crafted features (Huang
-et al., 2015; Ma and Hovy, 2016; Lample et al.,
-2016).
+> ***The named entity recognition (NER) is the task of finding the start and end of an entity in a sentence and assigning a class for this entity.*** 
+
+NER has been widely studied in the field of natural language processing (NLP) because of its potential assistance in question generation (Zhou et al., 2017), relation extraction (Miwa and Bansal, 2016), and coreference resolution (Fragkou, 2017). 
+
+Since (Collobert et al., 2011), various neural models have been introduced to avoid hand-crafted features (Huang et al., 2015; Ma and Hovy, 2016; Lample et al., 2016).
 
 NER是在句子中找到一个实体的首尾并为这个实体标记类别的任务。由于NER在问题生成、关系析取，指代消解中有潜在的帮助，因此它在自然语言处理领域中被广泛研究。自2011年不同的神经网络模型被应用在该任务中，以减少人工特征的使用。
 
@@ -69,19 +46,12 @@ The difference between various NER models mainly lies in the variance in these c
 NER经常被看作序列标记任务，这里神经模型通常包括以下几个部分：词嵌入层，上下文编码层，以及解码层。不同的NER模型主要是这几个组成部分的不同。
 
 
->Recurrent Neural Networks (RNNs) are widely
-employed in NLP tasks due to its sequential characteristic,
-which is aligned well with language.
-Specifically, bidirectional long short-term memory
-networks (BiLSTM) (Hochreiter and Schmidhuber, 1997) is one of the most widely used RNN
-structures. (Huang et al., 2015) was the first one
-to apply the BiLSTM and Conditional Random
-Fields (CRF) (Lafferty et al., 2001) to sequence
-labeling tasks. Owing to BiLSTM’s high power to
-learn the contextual representation of words, it has
-been adopted by the majority of NER models as
-the encoder (Ma and Hovy, 2016; Lample et al.,
-2016; Zhang et al., 2018; Gui et al., 2019b).
+>Recurrent Neural Networks (RNNs) are widely employed in NLP tasks due to its sequential characteristic, which is aligned well with language.
+Specifically, bidirectional long short-term memory networks (BiLSTM) (Hochreiter and Schmidhuber, 1997) is one of the most widely used RNN structures.
+
+ (Huang et al., 2015) was the first one to apply the BiLSTM and Conditional Random Fields (CRF) (Lafferty et al., 2001) to sequence labeling tasks. 
+
+Owing to BiLSTM’s high power to learn the contextual representation of words, it has been adopted by the majority of NER models as the encoder (Ma and Hovy, 2016; Lample et al., 2016; Zhang et al., 2018; Gui et al., 2019b).
 
 RNN由于其序列特征在NLP任务中得到广泛应用，这与语言的使用很一致。具体地，BiLSTM 双向长短期记忆神经元就是其中广泛应用的一种RNN网络结构。Huang第一次应用了双向长短期记忆网络和条件随机场在序列标记任务中，由于长短期记忆网络能够学习代表前后逻辑关系的单词，它也已经被大部分的NER模型当做编码器使用。
 
@@ -97,9 +67,7 @@ transformer编码器使用了一个全连接的self attention结构去模拟长�
 此外，transformer比RNN也有更好的并行能力。然而，在NER任务中，Transformer编码器表现较差。
 因此，探索transformer编码器在NER任务中表现不佳的原因也是很令人感兴趣的。
 
->In this paper, we analyze the properties of
-Transformer and propose two specific improvements
-for NER.
+>In this paper, we analyze the properties of Transformer and propose two specific improvements for NER.
 
 在这篇论文中，我们分析了Transformer的特征，并依据NER任务提出了两种特定的改进。
 
@@ -353,11 +321,85 @@ To illustrate this, we first prove two properties of the sinusoidal position emb
 
 **属性2**
 
+![](images/figure34.jpg
+
+证明
+
+![](images/graph5-1.jpg)
+
+The relation between d, k and PET
+t PEt+k is
+displayed in Fig 3. The sinusoidal position embeddings
+are distance-aware but lacks directionality.
+However, the property of distance-awareness
+also disappears when PEt is projected into the
+query and key space of self-attention. Since in
+vanilla Transformer the calculation between PEt
+and PEt+k is actually PET
+t WT
+q WkPEt+k, where Wq;Wk are parameters in Eq.(1). Mathematically,
+it can be viewed as PET
+t WPEt+k with only one
+parameter W. The relation between PET
+t PEt+k
+and PET
+t WPEt+k is depicted in Fig 4.
+Therefore, to improve the Transformer with
+direction- and distance-aware characteristic, we
+calculate the attention scores using the equations
+below:
+
+![](images/graph5-2.jpg)
+
+![](images/graph5-3.jpg)
+
+d、k与PET的关系t PEt+k 是显示在图 3. 
+
+![](images/figure34.jpg)
+
+正弦位置嵌入有距离意识但缺乏方向性。然而，距离感知的特性当 PEt 投射到自注意力的查询和关键空间。 自从在
+vanilla Transformer PEt 之间的计算而 PEt+k 实际上是 PET重量q WkPEt+k，其中Wq;Wk 是等式（1）中的参数。 在数学上，它可以被视为PETt WPEt+k 只有一个参数W.PET之间的关系t PEt+k和 PETt WPEt+k 如图 4 所示。因此，要改进 Transformer方向和距离感知特性，我们使用方程计算注意力分数
+以下.
+
+![](images/equation16171819.jpg)
+
+
 
 #### 1.3.2.2 Unscaled and Dot-Product Attention
 
+> The vanilla Transformer use the scaled dotproduct attention to smooth the output of softmax function. 
+>
+> In Eq.(3), the dot product of key and value matrices is divided by the scaling factor p dk.
+>
+> We empirically found that models perform better without the scaling factor pg根号下 dk. 
+>
+> We presume this is because without the scaling factor the attention will be sharper.
+>
+>  And the sharper attention might be beneficial in the NER task since only few words in the sentence are named entities.
+
+vanilla Transformer 使用缩放的点积注意力来平滑 softmax 函数的输出。在等式（3）中，键矩阵和值矩阵的点积除以缩放因子 p dk 。我们凭经验发现模型在没有比例因子 pg 根号下 dk 的情况下表现更好。我们假设这是因为没有比例因子，注意力会更敏锐。更敏锐的注意力可能有利于 NER 任务，因为句子中只有少数单词是命名实体。
 
 ### 1.3.3 CRF Layer
+
+> In order to take advantage of dependency between different tags, the Conditional Random Field (CRF) was used in all of our models. 
+>
+> Given a sequence s = [s1; s2; :::; sT ], the corresponding golden label sequence is y = [y1; y2; :::; yT ], and Y(s) represents all valid label sequences. 
+>
+> The probability of y is calculated by the following equation
+
+![](images\equation21.jpg)
+
+为了利用不同标签之间的依赖性，我们在所有模型中都使用了条件随机场 (CRF)。给定一个序列 s = [s1; s2; :::; sT ]，对应的金标序列为 y = [y1; y2; :::; yT ]，Y(s) 代表所有有效的标签序列。y 的概率由以下等式计算。
+
+> where f(yt􀀀1; yt; s) computes the transition score from yt􀀀1 to yt and the score for yt. 
+>
+> The optimization target is to maximize P(yjs). 
+>
+> When decoding,the Viterbi Algorithm is used to find the path achieves the maximum probability.
+
+![](images/graph6-1.jpg)
+
+其中 f(yt1; yt; s) 计算从 yt1 到 yt 的转换分数以及 yt 的分数。优化目标是最大化 P(yjs)。解码时采用维特比算法寻找路径达到最大概率。
 
 ## 1.4 Experiment
 
