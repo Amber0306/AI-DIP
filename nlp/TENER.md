@@ -1,13 +1,13 @@
 # TENER: Adapting Transformer Encoder for Named Entity Recognition
-## 0. intro
+# 0. intro
 - author: Hang Yan,Bocao Deng, Xiaonan Li, Xipeng Qiu
 - organization: School of Computer Science, Fudan University,
 Shanghai Key Laboratory of Intelligent Information Processing, Fudan University
 
 数据集，评价标准，总结，优缺点对比
 
-## 1. translation and interpretion of n.
-### 1.1 abstract
+# 1. translation and interpretion of n.
+## 1.1 abstract
 > Bidirectional long short-term memory networks (BiLSTMs) have been widely used as an encoder for named entity recognition (NER) task.
 
 > Recently, the fully-connected self-attention architecture (aka Transformer) is broadly adopted in various natural language processing (NLP) tasks owing to its parallelism and advantage in modeling the long range context. 
@@ -29,7 +29,7 @@ Experiments on six NER datasets show that TENER achieves superior performance th
 
 方向感知、距离感知和未缩放的attention机制结合，类似transformer的编码器还是有效的。
 
-### 1.2 introduction
+## 1.2 introduction
 
 > ***The named entity recognition (NER) is the task of finding the start and end of an entity in a sentence and assigning a class for this entity.*** 
 
@@ -170,7 +170,7 @@ Except for the BiLSTM based pre-trained models, BERT was based on Transformer (D
 P介绍了Elmo，使用CNN字符编码器和BiLSTM语言模型去获得上下文相关的词表示。
 除了基于BiLSTM的预训练模型，BERT也基于Transformer。
 
-### 1.2.2 Transformer
+1.2.2 Transformer
 
 >Transformer was introduced by (Vaswani et al., 2017), which was mainly based on self-attention.
 It achieved great success in various NLP tasks.
@@ -194,6 +194,7 @@ Usually, the matrix size of the three matrix are all Rddk , where dk is a hyper
 After that, the scaled dotproduct attention can be calculated by the following equations,
 
 ![](images/graph3-1.jpg)
+
 我们首先介绍Transformer编码器，这是在2017年提出的。Transformer编码器考虑了l*d维地矩阵，这里l是序列长度，d是输入维度。
 然后使用三个可学习的矩阵wq,wk,wv将H映射到不同的空间。
 通常，这三个矩阵的大小都是d*dk，这里dk是超参数。
@@ -208,6 +209,7 @@ Instead of using one group of Wq, Wk, Wv, using several groups will enhance the 
 When several groups are used, it is called multi-head selfattention, the calculation can be formulated as follows,
 
 ![](images/graph3-2.jpg)
+
 这里Qt是第t个token的查询向量，j是第t个token的伴随token。
 kj是第j个token关键向量的代表。
 不使用一个组的wq,wk,wv,而是使用几个组能够增强self-attention的能力。
@@ -251,9 +253,9 @@ The tth token’s position embedding can be represented by the following equatio
 
 ![](images/equation89.jpg)
 
-where i is in the range of [0; d 2 ], d is the input dimension.
-This sinusoid based position embedding makes Transformer have an ability to model the position of a token and the distance of each two tokens.
-For any fixed offset k, PEt+k can be represented by a linear transformation of PEt (Vaswani et al., 2017).
+> where i is in the range of [0; d 2 ], d is the input dimension.
+> This sinusoid based position embedding makes Transformer have an ability to model the position of a token and the distance of each two tokens.
+> For any fixed offset k, PEt+k can be represented by a linear transformation of PEt (Vaswani et al., 2017).
 
 ![](images/graph3-5.jpg)
 
@@ -321,33 +323,20 @@ To illustrate this, we first prove two properties of the sinusoidal position emb
 
 **属性2**
 
-![](images/figure34.jpg
+![](images/property2.jpg)
 
 证明
 
 ![](images/graph5-1.jpg)
 
-The relation between d, k and PET
-t PEt+k is
-displayed in Fig 3. The sinusoidal position embeddings
-are distance-aware but lacks directionality.
-However, the property of distance-awareness
-also disappears when PEt is projected into the
-query and key space of self-attention. Since in
-vanilla Transformer the calculation between PEt
-and PEt+k is actually PET
-t WT
-q WkPEt+k, where Wq;Wk are parameters in Eq.(1). Mathematically,
-it can be viewed as PET
-t WPEt+k with only one
-parameter W. The relation between PET
-t PEt+k
-and PET
-t WPEt+k is depicted in Fig 4.
-Therefore, to improve the Transformer with
-direction- and distance-aware characteristic, we
-calculate the attention scores using the equations
-below:
+> The relation between d, k and PET t PEt+k is displayed in Fig 3. 
+
+> The sinusoidal position embeddings are distance-aware but lacks directionality.
+> However, the property of distance-awareness also disappears when PEt is projected into the query and key space of self-attention. 
+
+> Since in vanilla Transformer the calculation between PEt and PEt+k is actually PET t WT q WkPEt+k, where Wq;Wk are parameters in Eq.(1). Mathematically, it can be viewed as PET t WPEt+k with only one parameter W. 
+
+> The relation between PET t PEt+k and PETt WPEt+k is depicted in Fig 4.Therefore, to improve the Transformer with direction- and distance-aware characteristic, wecalculate the attention scores using the equations below:
 
 ![](images/graph5-2.jpg)
 
@@ -363,7 +352,32 @@ vanilla Transformer PEt 之间的计算而 PEt+k 实际上是 PET重量q WkPEt+k
 
 ![](images/equation16171819.jpg)
 
+> where t is index of the target token, j is the index of the context token, Qt;Kj is the query vector and key vector of token t; j respectively, Wq;Wv 2 Rddk .
+>
+> To get Hdk 2 Rldk , we first split H into d=dk partitions in the second dimension, then for each head we use one partition. u 2 Rdk , v 2 Rdk are learnable parameters, Rt􀀀j is the relative positional encoding, and Rt􀀀j 2 Rdk , i in Eq.(17) is in the range [0; dk 2 ]. QTt Kj in Eq.(18) is the attention score between two tokens; 
+>
+> QTt Rt􀀀j is the tth token’s bias on certain relative distance; uTKj is the bias on the jth token; vTRt􀀀j is the bias term for certain distance and direction.
 
+<img src="images/graph5-4.jpg" style="zoom:67%;" />
+
+其中 t 是目标标记的索引，j 是索引 上下文标记的 Qt;Kj 是查询 token t的向量和关键向量； j 分别， Wq;Wv 2 Rd dk 。 为了得到 Hdk 2 Rl dk ，我们 在第二个中首先将 H 拆分为 d=dk 分区 维度，然后对于每个头部我们使用一个分区。
+u 2 Rdk , v 2 Rdk 是可学习的参数， Rt􀀀j 是相对位置编码，并且 等式(17)中的Rt􀀀j 2 Rdk , i 在[0; dk 2]。
+QTt 等式（18）中的 Kj 是 两个令牌； QTt Rt􀀀j 是第 t 个令牌对某些 相对距离； uTKj 是第 j 个的偏差 令牌； vTRt􀀀j  特定距离的偏置项和方向。
+
+![](images/equation20.jpg)
+
+> because sin(􀀀x) = 􀀀sin(x); cos(x) = cos(􀀀x).
+> This means for an offset t, the forward and backward relative positional encoding are the same with respect to the cos(cit) terms, but is the opposite with respect to the sin(cit) terms. 
+>
+> Therefore, by using Rt􀀀j , the attention score can distinguish different directions and distances.
+>
+> ![](images/graph5-5.jpg)
+>
+> The above improvement is based on the work (Shaw et al., 2018; Dai et al., 2019). Since the size of NER datasets is usually small, we avoid direct multiplication of two learnable parameters, because they can be represented by one learnable parameter. 
+>
+> Therefore we do not useWk in Eq.(16). The multi-head version is the same as Eq.(6), but we discardWo since it is directly multiplied byW1 in Eq.(7).
+
+因为 sin(x) = sin(x); cos(x) = cos(􀀀x)。 这意味着对于偏移量 t，向前和向后 相对位置编码相同 关于 cos(cit) 项，但相反 关于 sin(cit) 项。 所以， 通过使用 Rt􀀀j ，attention score 可以区分不同的方向和距离。以上改进是基于工作（Shaw 等人，2018 年；Dai 等人，2019 年）。 自从NER 数据集的大小通常很小，我们避免两个可学习参数的直接乘法，因为它们可以用一个可学习的来表示范围。 因此我们在方程（16）中不使用 Wk。多头版本与等式（6）相同，但我们丢弃Wo，因为它直接乘以W1在等式（7）中。
 
 #### 1.3.2.2 Unscaled and Dot-Product Attention
 
@@ -566,7 +580,7 @@ Transformer Encoder 具有强大的捕获场范围上下文的能力。
 同时，我们还发现适配后的 Transformer 适合用作英文字符编码器，因为它具有从字符中提取复杂模式的潜力。
 在两个英文 NER 数据集中的实验表明，适配后的 Transformer 字符编码器的性能优于 BiLSTM 和 CNN 字符编码器。 
 
-## 2. important things
+# 2. important things
 
 ### 2.1
 
@@ -583,10 +597,18 @@ Transformer Encoder 具有强大的捕获场范围上下文的能力。
 
 2. BiLSTM具体的结构是什么？
 
+   略
+
 3. Transformer的结构是什么？
 
+   另开
+
 4. attention注意力机制？
+
+   另开
 
 5. Encoder Decoder框架？
 
 6. 每个公式的含义？
+
+7. CRF的内容？
