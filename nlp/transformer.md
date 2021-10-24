@@ -94,11 +94,49 @@ Q,K,V三个向量，QK做转置乘积，再除以一个数，并进行softmax归
 
 # 3. 残差和layerNorm
 
+## 3.1 Residual
 
+残差缓解了梯度消失的出现。单独的RNN网络，如果想把网络做深很难，训练很慢。
 
-# 4. 前馈神经网络
+<img src="images-trm/residual.jpg" style="zoom:67%;" />
 
+残差计算
 
+<img src="images-trm/link.jpg" style="zoom:50%;" />
 
-# 5. TRM面试题讲解
+## 3.2 Layer Normalization
+
+### BN
+
+**为什么在这里使用Layer Normalization，而不使用Batch Normalization?**
+
+BN在nlp中效果差，所以不用，有论文对其进行了改进。
+
+#### BN的优点
+
+- 可以解决内部协变量便宜
+- 缓解了梯度饱和问题，（如果使用sigmoid激活函数的话），加快收敛。
+
+#### BN缺点
+
+- batchsize比较小的时候，效果很差
+- 在RNN中效果差。RNN的输入是动态的，不能有效地得到整个batchsize中的均值和方差。
+
+### LN
+
+**为什么使用Layer Normalization?**
+
+为什么LN单独对一个样本的所有单词做缩放可以起到效果。
+
+# 4. Decoder
+
+decoder
+
+需要mask掉后面所有信息，因为transformer是并行输入，如果不mask掉就能看到全部的信息。
+
+让模型有因果？
+
+encoder生成K V矩阵，decoder生成Q矩阵
+
+encoder的输出和每一个decoder都做交互。
 
