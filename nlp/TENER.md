@@ -582,7 +582,7 @@ Transformer Encoder 具有强大的捕获场范围上下文的能力。
 
 # 2. important things
 
-### 2.1
+### 2.1 论文内容
 
 提出了两点改进
 
@@ -590,6 +590,16 @@ Transformer Encoder 具有强大的捕获场范围上下文的能力。
 2. 通过实验发现得到稀疏且锐利的attention更好用。
 
 同时改进了字符编码器。
+
+## 2.2 model
+
+### 2.2.1 嵌入层
+
+嵌入模块是预训练的词嵌入和字符编码器提取的字符特征的串联
+
+BIOES begin inside outside end s整体
+
+
 
 ### 2.2 问题
 
@@ -608,6 +618,8 @@ Transformer Encoder 具有强大的捕获场范围上下文的能力。
    另开
 
 5. Encoder Decoder框架？
+
+   见文件
 
 6. 每个公式的含义？
 
