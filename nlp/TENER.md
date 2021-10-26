@@ -16,7 +16,7 @@ Transformer在nlp的任务中如今很常用
 
 > Nevertheless, the performance of the ***vanilla*** Transformer in NER is not as good as it is in other NLP tasks. 
 
-In this paper, we propose TENER, a NER architecture ***adopting adapted Transformer Encoder*** to model the character-level features and wordlevel features. 
+> In this paper, we propose TENER, a NER architecture ***adopting adapted Transformer Encoder*** to model the character-level features and wordlevel features. 
 
 vanilla: 香草的，普通的，香草
 
