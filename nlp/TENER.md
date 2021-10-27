@@ -524,6 +524,7 @@ Besides, if ELMo was used (Peters et al., 2018), the performance of TENER can be
 当仅使用 Glove 100d 嵌入和 CNN 字符嵌入时，还会在两个 NER 数据集中展示新的最先进性能。
 使用缩放注意力时，也观察到了同样的性能下降。
 此外，如果使用 ELMo（Peters 等，2018），TENER 的性能可以进一步提升，如表 4 所示。
+
 ### 1.4.4 Analysis of Different Character Encoder
 
 >The character-level encoder has been widely used in the English NER task to alleviate the data sparsity and OOV problem in word representation. 
@@ -597,9 +598,25 @@ Transformer Encoder 具有强大的捕获场范围上下文的能力。
 
 嵌入模块是预训练的词嵌入和字符编码器提取的字符特征的串联
 
-BIOES begin inside outside end s整体
+### 2.2.2 BIOES begin inside outside end s整体
 
+NER是一种序列标注问题，因此他们的数据标注方式也遵照序列标注问题的方式，主要是BIO和BIOES两种。这里直接介绍BIOES，明白了BIOES，BIO也就掌握了。
 
+先列出来BIOES分别代表什么意思：
+
+B，即Begin，表示开始
+
+I，即Intermediate，表示中间
+
+E，即End，表示结尾
+
+S，即Single，表示单个字符
+
+O，即Other，表示其他，用于标记无关字符
+
+将“小明在北京大学的燕园看了中国男篮的一场比赛”这句话，进行标注，结果就是：
+
+[B-PER，E-PER，O, B-ORG，I-ORG，I-ORG，E-ORG，O，B-LOC，E-LOC，O，O，B-ORG，I-ORG，I-ORG，E-ORG，O，O，O，O]
 
 ### 2.2 问题
 
