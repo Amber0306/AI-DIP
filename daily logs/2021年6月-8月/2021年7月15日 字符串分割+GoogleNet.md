@@ -28,4 +28,4 @@ class Solution:
 
 # 2. GoogleNet网络结构
 
-![2021071501](images\2021071501.jpg)
+![2021071501](..\images\2021071501.jpg)
