@@ -196,3 +196,8 @@ One solution to this problem is by using the global representation of a graph (U
 
 
 
+In this view all graph attributes have learned representations, so we can leverage them during pooling by conditioning the information of our attribute of interest with respect to the rest. For example, for one node we can consider information from neighboring nodes, connected edges and the global information. To condition the new node embedding on all these possible sources of information, we can simply concatenate them. Additionally we may also map them to the same space via a linear map and add them or apply a feature-wise modulation layer[22], which can be considered a type of featurize-wise attention mechanism.
+
+一种特殊的“注意力机制”
+
+![](../images/202202/14/1.png)
