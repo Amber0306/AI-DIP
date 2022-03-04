@@ -87,6 +87,7 @@ def parse_args():
 def main():
     args = parse_args()
 
+    # 从config中载入参数
     cfg = Config.fromfile(args.config)
     if args.cfg_options is not None:
         cfg.merge_from_dict(args.cfg_options)
