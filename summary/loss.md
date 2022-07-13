@@ -64,13 +64,80 @@ $$
 ![smmoth l1](images/loss/1.png)
 
 **Smooth L1**
+
 当预测框与 ground truth 差别过大时，梯度值不至于过大；
 当预测框与 ground truth 差别很小时，梯度值足够小。
 
+应用在目标检测中，位置损失为：
+$$
+L_{loc}(t^u,v)=\sum_{i\in\lbrace x,y,w,h\rbrace} smooth_{L_1}(t_i^u-v_i)
+ $$
+其中$v=(v_x,v_y,v_w,v_h)$表示bbox的真实值，$t^u=(t_x^u,t_y^u,t_w^u,t_h^u)$表示bbox的预测值
+
+### 缺点
+L1/L2/smooth l1 在计算目标检测的 bbox loss时，都是独立的求出4个点的 loss，然后相加得到最终的 bbox loss。这种做法的默认4个点是相互独立的，与实际不符。举个例子，当(x, y)为右下角时，w h其实只能取0;目标检测的评价 bbox 的指标是 IoU，IoU 与smooth L1 loss 的变化不匹配
 ## 2.4 IOU loss
 
+### 简述
+
+Yu, J., Jiang, Y., Wang, Z., Cao, Z., Huang, T., 2016. UnitBox: An Advanced Object Detection Network, in: Proceedings of the 24th ACM International Conference on Multimedia. pp. 516–520. https://doi.org/10.1145/2964284.2967274
+
+
+IoU 计算让 x, y, w, h 相互关联，同时具备了尺度不变性，克服了 smooth l1 Loss 的缺点。
+
+尺度不变性，也就是对尺度不敏感（scale invariant）， 在regression任务中，判断predict box和gt的距离最直接的指标就是IoU。(满足非负性；同一性；对称性；三角不等性)
+### 流程
+![](images/loss/3.png)
+计算过程如下：
+对每个像素点而言，定义一个四维向量
+$$
+\widetilde{\boldsymbol{x}}_{i, j}=\left(\widetilde{x}_{t_{i, j}}, \widetilde{x}_{b_{i, j}}, \widetilde{x}_{l_{i, j}}, \widetilde{x}_{r_{i, j}}\right)
+$$
+到gt和prediction上下左右的距离。
+
+具体的计算过程如下。
+![](images/loss/4.png)
+### 缺点
+
+当预测框和目标框不相交，即 IoU(bbox1, bbox2)=0 时，不能反映两个框距离的远近，此时损失函数不可导，IoU Loss 无法优化两个框不相交的情况。假设预测框和目标框的大小都确定，只要两个框的相交值是确定的，其 IoU 值是相同时，IoU 值不能反映两个框是如何相交的，如图所示：
+
+![](images/loss/2.jpg)
+
+灰色框为真实框，虚线框为预测框。这两者情况的IoU相同，但是这两个框的匹配状态不一样。我们认为右边框匹配的好一点，因为它匹配的角度更好。故下文定义了GIoU。 
+
+
 ## 2.5 GIOU loss
+
+![](images/loss/5.png)
+Two sets of examples (a) and (b) with the bounding boxes represented by (a) two corners (x1, y1, x2, y2) and (b) center and size (xc, yc, w, h).
+
+
+
+### 通用流程
+![](images/loss/6.png)
+
+该计算过程可以是:交并比+并集的倒数，因为希望并集最小。
+
+GIoU 的实现方式如上式，其中 C 为 A 和 B 的外接矩形。用 C 减去 A 和 B 的并集除以 C 得到一个数值，然后再用 A 和 B 的 IoU 减去这个数值即可得到 GIoU 的值。可以看出：
+
+GIoU 取值范围为 [-1, 1]，在两框重合时取最大值1，在两框无限远的时候取最小值-1；与 IoU 只关注重叠区域不同，GIoU不仅关注重叠区域，还关注其他的非重合区域，能更好的反映两者的重合度。
+
+### 包围框回归的流程
+![](images/loss/8.png)
+### IOU和GIOU的对比
+![](images/loss/7.png)
+
+### 缺点
+![](images/loss/9.jpg)
+
+当目标框完全包裹预测框的时候，IoU 和 GIoU 的值都一样，此时 GIoU 退化为 IoU, 无法区分其相对位置关系。
 
 ## 2.6 DIOU loss
 
 ## 2.7 CIOU loss
+
+## 2.8 EIOU loss
+
+## 2.9 focal EIOU loss
+
+## 2.10 seasaw loss
