@@ -133,11 +133,96 @@ GIoU 取值范围为 [-1, 1]，在两框重合时取最大值1，在两框无限
 当目标框完全包裹预测框的时候，IoU 和 GIoU 的值都一样，此时 GIoU 退化为 IoU, 无法区分其相对位置关系。
 
 ## 2.6 DIOU loss
+### GIOU和DIOU回归过程的比较
+![](images/loss/10.png)
 
+GIOU退化为IOU的例子
+![](images/loss/11.png)
+
+IOU loss可以定义为下式：
+
+$$
+\mathcal{L}=1-I o U+\mathcal{R}\left(B, B^{g t}\right)
+$$
+DIOU的惩罚项定义为：
+$$
+\mathcal{R}_{D I o U}=\frac{\rho^{2}\left(\mathbf{b}, \mathbf{b}^{g t}\right)}{c^{2}}
+$$
+DIOU的损失函数定义为：
+$$
+\mathcal{L}_{D I o U}=1-I o U+\frac{\rho^{2}\left(\mathbf{b}, \mathbf{b}^{g t}\right)}{c^{2}}
+$$
+其中c、d的定义如图所示。
+![](images/loss/12.png)
+**c放在分母上？**
+### 进而提出的DIOU NMS
+Distance IOU
+$$
+s_{i}=\left\{\begin{array}{l}
+s_{i}, I o U-\mathcal{R}_{D I o U}\left(\mathcal{M}, B_{i}\right)<\varepsilon \\
+0, \quad \operatorname{IoU}-\mathcal{R}_{D I o U}\left(\mathcal{M}, B_{i}\right) \geq \varepsilon
+\end{array}\right.
+$$
+### 缺点
+边框回归的三个重要几何因素：重叠面积、中心点距离和长宽比，DIoU 没有包含长宽比因素。
 ## 2.7 CIOU loss
+Complete IOU
+### CIOU惩罚项：
+$$
+\mathcal{R}_{C I o U}=\frac{\rho^{2}\left(\mathbf{b}, \mathbf{b}^{g t}\right)}{c^{2}}+\alpha v
+$$
 
+$\alpha$是正权衡参数,$v$是纵横比的一致性。
+$$
+v=\frac{4}{\pi^{2}}\left(\arctan \frac{w^{g t}}{h^{g t}}-\arctan \frac{w}{h}\right)^{2}
+$$
+$$
+\alpha=\frac{v}{(1-I o U)+v}
+$$
+
+arctan图像：
+
+![](images/loss/13.jpg)
+
+### v求导：
+$$
+\begin{aligned}
+\frac{\partial v}{\partial w} &=\frac{8}{\pi^{2}}\left(\arctan \frac{w^{g t}}{h^{g t}}-\arctan \frac{w}{h}\right) \times \frac{h}{w^{2}+h^{2}} \\
+\frac{\partial v}{\partial h} &=-\frac{8}{\pi^{2}}\left(\arctan \frac{w^{g t}}{h^{g t}}-\arctan \frac{w}{h}\right) \times \frac{w}{w^{2}+h^{2}}
+\end{aligned}
+$$
+
+### CIOU loss定义：
+$$
+\mathcal{L}_{C I o U}=1-I o U+\frac{\rho^{2}\left(\mathbf{b}, \mathbf{b}^{g t}\right)}{c^{2}}+\alpha v
+$$
+
+### 缺点：
+在CIoU的定义中，衡量长宽比的$v$过于复杂，从两个方面减缓了收敛速度：
+长宽比不能取代单独的长宽，比如$w=k w^{g t}, h=k h^{g t}$都会导致v=0；
+从v的导数可以得到$\frac{\partial v}{\partial w}=-\frac{h}{w} \frac{\partial v}{\partial h}$，这说明$\frac{\partial v}{\partial w}$和$\frac{\partial v}{\partial h}$在优化中意义相反。
+- 只是反映了长宽比的差异，而不是W和WGT或H和HGT之间的真实关系。也就是说，所有具有属性的框{（W = kwgt，h = khgt）|k∈R+}的v = 0，这与现实不一致。
+- 我们有∂v∂w=  -  hw∂v∂h。 ∂v∂w和∂v∂h具有相反的符号。因此，在任何时候，如果这两个变量（w或h）中有一个，另一个变量将减少。这是不合理的，尤其是当w <wgt和h < hgt或w> wgt和hgt时。
+- 由于V仅反映了长宽比的差异，因此CIOU损失可能以不合理的方式优化相似性。如图1所示，目标框的比例设置为WGT = 1和HGT = 1。 50次迭代后，锚盒的尺度回归为W = 1.64，H = 2.84。在这里，CIOU的损失确实增加了纵横比的相似性，而它阻碍了模型有效地降低（W，H）和（WGT，HGT）之间的真实差异。
 ## 2.8 EIOU loss
+### 和GIOU CIOU的比较
+![](images/loss/14.png)
+
+### EIOU定义
+$$
+\begin{aligned}
+&L_{E I O U}=L_{I O U}+L_{d i s}+L_{a s p} \\
+&\quad=1-I O U+\frac{\rho^{2}\left(\mathbf{b}, \mathbf{b}^{\mathrm{gt}}\right)}{c^{2}}+\frac{\rho^{2}\left(w, w^{g t}\right)}{C_{w}^{2}}+\frac{\rho^{2}\left(h, h^{g t}\right)}{C_{h}^{2}}
+\end{aligned}
+$$
+
+$C_w$为最小包围框的宽，高同理。
 
 ## 2.9 focal EIOU loss
+
+### 2.9.1 focal L1 loss
+
+### 2.9.2 focal EIOU loss
+
 
 ## 2.10 seasaw loss
