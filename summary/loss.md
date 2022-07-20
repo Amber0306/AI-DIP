@@ -221,8 +221,32 @@ $C_w$为最小包围框的宽，高同理。
 ## 2.9 focal EIOU loss
 
 ### 2.9.1 focal L1 loss
+回归损失应该具有的特点：
+
+- 当回归误差为零时，梯度幅度应具有零的极限。
+- 梯度数值应在小回归误差周围迅速增加，并在大回归误差区域逐渐减少。
+- 梯度幅度应在小回归误差周围迅速增加，并在大回归误差区域逐渐减少。
+- 对于超参数的变异值，梯度函数的家族应具有归一化量表，例如（0，1]，这有助于高质量和低质量示例之间的平衡。
+
+可能的梯度曲线：
+![](images/loss/15.png)
+
+focal L1 loss定义
+$$
+L_{f}(x)= \begin{cases}-\frac{\alpha x^{2}(2 \ln (\beta x)-1)}{4}, & 0<x \leq 1 ; 1 / e \leq \beta \leq 1 \\ -\alpha \ln (\beta) x+C, & x>1 ; 1 / e \leq \beta \leq 1\end{cases}
+$$
+为了确保x=1处连续，$C=(2 \alpha \ln \beta+\alpha) / 4$
+
+Focal l1 loss曲线：
+![](images/loss/16.png)
+
+仿真实验？？？
 
 ### 2.9.2 focal EIOU loss
 
+用IOU来加权原本的EIOU，主要是为了解决EIOU在偏移比较小时梯度很小的问题。
+$$
+L_{\text {Focal-EIOU }}=I O U^{\gamma} L_{E I O U}
+$$
 
 ## 2.10 seasaw loss
